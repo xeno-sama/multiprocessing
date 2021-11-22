@@ -1,0 +1,16 @@
+year = 2000
+month = 1
+day = 1
+hour = 12
+minutes = 0
+tmz = 0
+lat = 0.0
+lon = 0.0
+year_natal = '1977'
+month_natal = '05'
+day_natal = 27
+hour_natal = 12
+minutes_natal = 0
+tmz_natal = 6
+lat_natal = 42
+lon_natal = 75

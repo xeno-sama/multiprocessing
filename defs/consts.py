@@ -1,0 +1,25 @@
+sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto = range(10)
+
+овен = [i for i in range(30)]
+телец = [i for i in range(30, 60)]
+близнецы = [i for i in range(60, 90)]
+рак = [i for i in range(90, 120)]
+лев = [i for i in range(120, 150)]
+дева = [i for i in range(150, 180)]
+весы = [i for i in range(180, 210)]
+скорпион = [i for i in range(210, 240)]
+стрелец = [i for i in range(240, 270)]
+козерог = [i for i in range(270, 300)]
+водолей = [i for i in range(300, 330)]
+рыбы = [i for i in range(330, 360)]
+
+тригон = [0 for i in range(10)]
+оппозиция = [0 for i in range(10)]
+квадрат = [0 for i in range(10)]
+секстиль = [0 for i in range(10)]
+соединение = [0 for i in range(10)]
+
+plus = [0 for i in range(10)]
+minus = [0 for i in range(10)]
+minus_only = [0 for i in range(10)]
+acc = [0 for i in range(10)]
