@@ -1,8 +1,12 @@
-from defs.calc_moon import calc
-from defs.gradusPlanets import calc as gp
+# from defs.calc_moon import calc
+# from defs.gradusPlanets import calc as gp
 from datetime import date, datetime, timedelta
 import sqlite3
 from const import *
+
+# TODO привести луну к координатам с учетов реального времени '2021-12-08'
+real = date(year_natal, month_natal, day_natal)
+real2 = real + timedelta(days=1)
 
 
 try:
@@ -11,7 +15,7 @@ try:
     print("База данных успешно подключена к SQLite")
 
     with conn:
-        cur.execute("select moon from tab_1 where date = '2021-12-08'")
+        cur.execute(f"select moon from tab_1 where date = '{real2}'")
         print(cur.fetchall())
     # conn.commit()
 
