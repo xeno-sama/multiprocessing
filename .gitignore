@@ -1,7 +1,9 @@
-/.DS_Store
-/.history
-/Dockerfile
-/__pycache__
-/ephem.db
-/py_env
-/Новая папка
+/.DS_Store/**
+/.history/**
+/defs/__pycache__/**
+/__pycache__/**
+ephem.db
+/env_multiprocessing/**
+test.db
+/backup/**
+test.txt

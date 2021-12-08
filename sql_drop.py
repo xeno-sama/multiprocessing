@@ -1,12 +1,12 @@
 import sqlite3
 
-
 try:
-    conn = sqlite3.connect('ephem02.db')
+    conn = sqlite3.connect('test.db')
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
 
-    cur.execute("delete from ephemerides")
+    # cur.execute("delete from tab_0")
+    # cur.execute("delete from tab_1")
     conn.commit()
     print("База данных очищена")
 

@@ -3,6 +3,7 @@ from datetime import date, datetime, timedelta
 import sqlite3
 from const import *
 
+real_data = f'{year_natal}-{month_natal}-{day_natal}'
 start = datetime.now()
 
 try:

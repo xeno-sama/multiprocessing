@@ -3,28 +3,17 @@ from defs.gradusPlanets import calc as gp
 from datetime import date, datetime, timedelta
 import sqlite3
 from const import *
-from defs import calc_moon as func
 
-start = datetime.now()
-
-# eval(f'{i}us')
 
 try:
-    conn = sqlite3.connect('ephem_moon.db')
+    conn = sqlite3.connect('test.db')
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
 
-    tmp = []
-
-    # for row in cur.execute(
-    #         "select moon_0_0 from ephemerides"):
-    #     tmp.append(row[0])
-
-    cur.execute("attach database 'ephem_moon_copy.db' as other")
-    cur.execute(
-        "insert into other.ephemerides(moon_0_0, moon_0_60) select moon_0_0, moon_0_60 from ephemerides ")
-
-    conn.commit()
+    with conn:
+        cur.execute("select moon from tab_1 where date = '2021-12-08'")
+        print(cur.fetchall())
+    # conn.commit()
 
     cur.close()
 
@@ -36,8 +25,6 @@ finally:
         conn.close()
         print("Соединение с SQLite закрыто")
 
-end = datetime.now()
-print(end-start)
 
 # tmp = []
 #    for row in cur.execute(
@@ -108,3 +95,6 @@ print(end-start)
 #                 (moon_0_120))
 #     date_start += timedelta(days=1)
 #     i += 1
+
+
+# eval(f'{i}us')
