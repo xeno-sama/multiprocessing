@@ -10,6 +10,7 @@ try:
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
 
+# задаем период для исходной таблицы tab_0
     date_start = date(year=1930, month=1, day=1)
     date_end = date(year=2050, month=1, day=1)
 
@@ -27,6 +28,7 @@ try:
         neptune = round(_natal[8], 1)
         pluto = round(_natal[9], 1)
 
+# оптимальный шаг 30 по широте и 60 по долготе - погрешность луны в пределах 0.1
         moon_0_0 = round(gp(date_start.year, date_start.month, date_start.day,
                             hour, minutes, tmz, 0.0, 0.0)[1], 1)
         moon_0_60 = round(gp(date_start.year, date_start.month, date_start.day,
@@ -122,9 +124,10 @@ try:
         cur.execute("insert into tab_0 values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     (data, sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto, moon_0_0, moon_0_60, moon_0_120, moon_0_180, moon_0_120m, moon_0_60m, moon_30_0, moon_30_60, moon_30_120, moon_30_180, moon_30_120m, moon_30_60m, moon_60_0, moon_60_60, moon_60_120, moon_60_180, moon_60_120m, moon_60_60m, moon_90_0, moon_90_60, moon_90_120, moon_90_180, moon_90_120m, moon_90_60m, moon_30m_0, moon_30m_60, moon_30m_120, moon_30m_180, moon_30m_120m, moon_30m_60m, moon_60m_0, moon_60m_60, moon_60m_120, moon_60m_180, moon_60m_120m, moon_60m_60m, moon_90m_0, moon_90m_60, moon_90m_120, moon_90m_180, moon_90m_120m, moon_90m_60m))
         date_start += timedelta(days=1)
-        print(date_start)
-    conn.commit()
 
+        print(date_start)  # видеть лог
+
+    conn.commit()
     cur.close()
 
 except sqlite3.Error as error:

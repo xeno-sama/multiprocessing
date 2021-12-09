@@ -5,5 +5,10 @@
 ephem.db
 /env_multiprocessing/**
 test.db
+test_check.db
 /backup/**
 test.txt
+check_test_copy.py
+check_test_create.py
+check_test_insert.py
+check_test_main.py

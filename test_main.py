@@ -4,7 +4,7 @@ import sqlite3
 from const import *
 
 real_data = f'{year_natal}-{month_natal}-{day_natal}'
-start = datetime.now()
+
 
 try:
     conn = sqlite3.connect('test.db')
@@ -26,15 +26,12 @@ finally:
         conn.close()
         print("Соединение с SQLite закрыто")
 
-end = datetime.now()
-print(end-start)
 
-# tmp = []
-#    for row in cur.execute(
-#             "select date from ephemerides where venus - moon > 250 and moon < 50 and date between '2027-01-30' and '2029-12-30'"):
-#         tmp.append(row[0])
-#     print(tmp)
+###########################################
 
+# start = datetime.now()
+# end = datetime.now()
+# print(end-start)
 
 ###########################################
 
@@ -57,42 +54,3 @@ print(end-start)
 # cur.execute(f"update ephemerides set moon_0_0 = {df} ")
 
 ###########################################
-
-
-# date_start = date(year=2018, month=1, day=1)
-# date_end = date(year=2019, month=1, day=1)
-
-# date_start2 = date(year=2018, month=1, day=1)
-# date_end2 = date(year=2019, month=1, day=1)
-
-# while date_start <= date_end:
-#     _natal = gp(date_start.year, date_start.month, date_start.day,
-#                 hour, minutes, tmz, lat, lon)
-#     moon = round(_natal[1], 1)
-#     tmp1.append(moon)
-#     date_start += timedelta(days=60)
-
-# while date_start2 <= date_end2:
-#     _natal = gp(date_start2.year, date_start2.month, date_start2.day,
-#                 hour, minutes, tmz, 0.0, 0.0)
-#     moon2 = round(_natal[1], 1)
-#     tmp2.append(moon2)
-#     date_start2 += timedelta(days=30)
-
-# for i in range(len(tmp2)-1):
-#     tmp.append(round(tmp1[i]-tmp2[i], 2))
-
-# print(tmp)
-
-# i = 0
-# date_start = date(year=2020, month=1, day=1)
-# date_end = date(year=2020, month=1, day=5)
-
-# cur.execute("attach database 'ephem_moon_copy.db' as other")
-
-# while date_start <= date_end:
-#     moon_0_120 = tmp[i]
-#     cur.execute("insert into other.ephemerides values (?)",
-#                 (moon_0_120))
-#     date_start += timedelta(days=1)
-#     i += 1

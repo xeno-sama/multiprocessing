@@ -61,7 +61,7 @@ try:
         moon_90m_120m real not null
     );
     '''
-
+# вторая таблица tab_1 для клиента - собирается из первой tab_0 + реальное время рождения
     create_tab_1 = ''' create table tab_1 (
         date text primary key,
         sun real not null,
@@ -89,18 +89,3 @@ finally:
     if (conn):
         conn.close()
         print("Соединение с SQLite закрыто")
-
-    # uranus = 999
-    # sun = 99
-    # moon = 111
-    # cur.execute("insert into tab1 values (?,?,?)",
-    #             (uranus, sun, moon))
-
-    # create_tab2 = ''' create table tab2 (
-    #     sun real,
-    #     moon real
-    # );
-    # '''
-    # cur.execute(create_tab2)
-
-    # cur.execute("insert into tab2 select sun,moon from tab1")
