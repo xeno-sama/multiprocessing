@@ -6,6 +6,7 @@ ephem.db
 /env_multiprocessing/**
 test.db
 test_check.db
+test_check_2.db
 /backup/**
 test.txt
 check_test_copy.py

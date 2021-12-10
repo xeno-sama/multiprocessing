@@ -1,27 +1,53 @@
+from defs.gradusPlanets import calc as gp
 from datetime import date, datetime, timedelta
+import sqlite3
 from const import *
 
-date_start = date(year=1930, month=1, day=1)
-x = [i for i in range(180, -180, -30)]
+start = datetime.now()
 
-y = tuple([1.0 for i in range(3)])
-data = str(date_start)
-z = (data, y)
-# dz = tuple([z[0]] + list(z[1]))
-dz = tuple([data] + list(y))
+try:
+    conn = sqlite3.connect('test_check_2.db')
+    cur = conn.cursor()
+    print("База данных успешно подключена к SQLite")
 
-print(dz)
+# очистка таблиц
+    cur.execute(''' drop table if exists tab_2 ''')
+# предварительная очистка клиентской таблицы
+    # cur.execute("delete from tab_2")
 
-# s = tuple(j for i in (('aa', 'bb', 'cc'), data)
-#           for j in (i if isinstance(i, tuple) else (i,)))
+    create_tab_2 = ''' create table tab_2 (
+        data text,
+        moon real
+    );
+    '''
 
-# print(s)
-# for i in x:
-#     ix += 1
-#     for j in y:
-#         jy += 1
-#         a[ix][jy] = i+j
+    cur.execute(create_tab_2)
 
-#         # print(a[ix][jy])
-#     jy = -1
-# print(a)
+# задаем период для исходной таблицы tab_0
+    date_start = date(year=1930, month=1, day=1)
+    date_end = date(year=1930, month=1, day=10)
+
+    while date_start <= date_end:
+        tmp = []
+        tmp.append(round(gp(date_start.year, date_start.month, date_start.day,
+                            hour, minutes, tmz, 70, 70)[1], 2))
+        dz = tuple([str(date_start)] + tmp)
+
+        cur.execute("insert into tab_2 values (?,?)", dz)
+
+        print(date_start)  # видеть лог
+        date_start += timedelta(days=1)
+
+    conn.commit()
+    cur.close()
+
+except sqlite3.Error as error:
+    print("Ошибка при подключении к sqlite", error)
+
+finally:
+    if (conn):
+        conn.close()
+        print("Соединение с SQLite закрыто")
+
+end = datetime.now()
+print(end-start)
