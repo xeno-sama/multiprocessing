@@ -13,3 +13,4 @@ check_test_copy.py
 check_test_create.py
 check_test_insert.py
 check_test_main.py
+/env_mp_sql/**
