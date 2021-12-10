@@ -2,11 +2,13 @@ from defs.gradusPlanets import calc as gp
 from datetime import date, datetime, timedelta
 import sqlite3
 from const import *
+from time import perf_counter
 
-start = datetime.now()
+tm = 'test_check'
+start_time = perf_counter()
 
 try:
-    conn = sqlite3.connect('test_check_2.db')
+    conn = sqlite3.connect(f'{tm}_2.db')
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
 
@@ -49,5 +51,4 @@ finally:
         conn.close()
         print("Соединение с SQLite закрыто")
 
-end = datetime.now()
-print(end-start)
+print(f'{(perf_counter() - start_time)}')

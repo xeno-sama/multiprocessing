@@ -45,12 +45,16 @@ def sum(s):
 
 
 def main():
+    for i in range(1, 32, 1):
+        p1 = Process(target=sum, args=(i, ))
+        p1.start()
+    p1.join()
 
-    p1 = Process(target=sum, args=(1, ))
-    p1.start()
+    # p1 = Process(target=sum, args=(1, ))
+    # p1.start()
 
-    p2 = Process(target=sum, args=(2, ))
-    p2.start()
+    # p2 = Process(target=sum, args=(2, ))
+    # p2.start()
 
     # p3 = Process(target=sum, args=(i+2, ))
     # p3.start()
@@ -69,9 +73,9 @@ def main():
 
     # p8 = Process(target=sum, args=(500000001, ))
     # p8.start()
-
-    p1.join()
-    p2.join()
+    # p1.start()
+    # p1.join()
+    # p2.join()
     # p3.join()
     # p4.join()
     # p5.join()
