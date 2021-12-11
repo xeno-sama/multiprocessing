@@ -16,7 +16,7 @@ try:
 
 # задаем период для исходной таблицы tab_0
     date_start = date(year=1930, month=1, day=1)
-    date_end = date(year=1930, month=1, day=1)
+    date_end = date(year=1930, month=2, day=1)
     lat = [i for i in range(-90, 91, 10)]
     lon = [i for i in range(-180, 180, 10)]
 

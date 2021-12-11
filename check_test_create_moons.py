@@ -24,6 +24,7 @@ try:
     print("Новая таблица создана")
 
     conn.commit()
+    cur.execute("vacuum")
     cur.close()
 
 except sqlite3.Error as error:
