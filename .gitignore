@@ -5,6 +5,4 @@
 ephem.db
 /env_multiprocessing/**
 /db/**
-/backup/**
-test.txt
 /env_mp_sql/**
