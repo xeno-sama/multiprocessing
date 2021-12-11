@@ -7,16 +7,16 @@ from const import *
 start_time = perf_counter()
 
 try:
-    conn = sqlite3.connect('db/test_all_moons.db')
+    conn = sqlite3.connect('db/ephem_allmoons.db')
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
 
 # предварительная очистка клиентской таблицы
-    cur.execute("delete from tab_0")
+    # cur.execute("delete from tab_0")
 
 # задаем период для исходной таблицы tab_0
-    date_start = date(year=1930, month=1, day=1)
-    date_end = date(year=1930, month=2, day=1)
+    date_start = date(year=1930, month=1, day=4)
+    date_end = date(year=1930, month=1, day=5)
     lat = [i for i in range(-90, 91, 10)]
     lon = [i for i in range(-180, 180, 10)]
 

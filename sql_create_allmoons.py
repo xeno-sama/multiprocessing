@@ -10,7 +10,7 @@ for i in lat:
 dz = tuple(tmp)
 
 try:
-    conn = sqlite3.connect(f'db/test_all_moons.db')
+    conn = sqlite3.connect(f'db/ephem_allmoons.db')
     cur = conn.cursor()
     print("База данных подключена к SQLite")
 
