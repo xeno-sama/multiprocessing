@@ -62,3 +62,57 @@ if __name__ == '__main__':
     #         print("Соединение с SQLite закрыто")
 
     print(f'{(perf_counter() - start_time)}')
+#####################################################
+
+# def sum(s):
+#     sun = gp(1977, 5, s,
+#              12, 0, 0, 0.0, 0.0)[0]
+#     moon = gp(2021, 1, s,
+#               12, 0, 0, 0.0, 0.0)[1]
+#     mercury = gp(2021, 1, s,
+#                  12, 0, 0, 0.0, 0.0)[2]
+#     venus = gp(2021, 1, s,
+#                12, 0, 0, 0.0, 0.0)[3]
+#     mars = gp(2021, 1, s,
+#               12, 0, 0, 0.0, 0.0)[4]
+#     jupiter = gp(2021, 1, s,
+#                  12, 0, 0, 0.0, 0.0)[5]
+#     saturn = gp(2021, 1, s,
+#                 12, 0, 0, 0.0, 0.0)[6]
+#     uranus = gp(2021, 1, s,
+#                 12, 0, 0, 0.0, 0.0)[7]
+#     neptune = gp(2021, 1, s,
+#                  12, 0, 0, 0.0, 0.0)[8]
+#     pluto = gp(2021, 1, s,
+#                12, 0, 0, 0.0, 0.0)[9]
+#     print(sun)
+
+
+# def main():
+#     for i in range(1, 32, 1):
+#         p1 = Process(target=sum, args=(i, ))
+#         p1.start()
+#     p1.join()
+
+#     # p1 = Process(target=sum, args=(1, ))
+#     # p1.start()
+
+#     # p2 = Process(target=sum, args=(2, ))
+#     # p2.start()
+
+#     # p3 = Process(target=sum, args=(i+2, ))
+#     # p3.start()
+
+#     # p4 = Process(target=sum, args=(i+3, ))
+#     # p4.start()
+
+#     # p1.join()
+#     # p2.join()
+#     # p3.join()
+#     # p4.join()
+
+
+# if __name__ == '__main__':
+
+#     main()
+#     print(f'{(perf_counter() - start_time)}')

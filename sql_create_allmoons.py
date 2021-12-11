@@ -1,16 +1,16 @@
 import sqlite3
 
 lat = [i for i in range(-90, 91, 10)]
-lon = [i for i in range(-180, 180, 10)]
+lon = [i for i in range(-180, 181, 10)]
 tmp = []
 for i in lat:
     for j in lon:
-        tmp.append(f'{i}_{j}')
+        tmp.append(f'moon_{i}_{j}')
 
 dz = tuple(tmp)
 
 try:
-    conn = sqlite3.connect(f'db/ephem_allmoons.db')
+    conn = sqlite3.connect('db/ephem_allmoons.db')
     cur = conn.cursor()
     print("База данных подключена к SQLite")
 

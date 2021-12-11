@@ -23,7 +23,7 @@ def recalc(hour_natal):  # поправка на реальное время д�
 
 
 try:
-    conn = sqlite3.connect('test_check.db')
+    conn = sqlite3.connect('db/ephem.db')
     cur = conn.cursor()
     print("База данных создана и успешно подключена к SQLite")
 

@@ -1,12 +1,8 @@
-from defs.gradusPlanets import calc as gp
-from datetime import date, datetime, timedelta
 import sqlite3
-from const import *
-
-start = datetime.now()
+# TODO файл будет копировать в ephem.db moon из ephem_allmoons.db
 
 try:
-    conn = sqlite3.connect('test_check.db')
+    conn = sqlite3.connect('db/ephem.db')
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
 
@@ -14,9 +10,9 @@ try:
     cur.execute("delete from tab_1")
 
 # скопировать из другой базы
-    cur.execute("attach database 'test_check_2.db' as ads")
+    cur.execute("attach database 'db/ephem_allmoons.db' as ads")
     cur.execute(
-        "insert into tab_1(data, moon) select data, moon from ads.tab_2")
+        "insert into tab_1(data, moon) select data, moon_0_0 from ads.tab_0")
 
 # перенести нужное значение из таблицы tab_1 в главную таблицу tab_0
     cur.execute(

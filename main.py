@@ -4,38 +4,6 @@ from datetime import date, datetime, timedelta
 import sqlite3
 from const import *
 
-# TODO привести луну к координатам с учетов реального времени '2021-12-08'
-real = date(year_natal, month_natal, day_natal)
-real2 = real + timedelta(days=1)
-
-
-try:
-    conn = sqlite3.connect('test.db')
-    cur = conn.cursor()
-    print("База данных успешно подключена к SQLite")
-
-    with conn:
-        cur.execute(f"select moon from tab_1 where date = '{real2}'")
-        print(cur.fetchall())
-    # conn.commit()
-
-    cur.close()
-
-except sqlite3.Error as error:
-    print("Ошибка при подключении к sqlite", error)
-
-finally:
-    if (conn):
-        conn.close()
-        print("Соединение с SQLite закрыто")
-
-
-# tmp = []
-#    for row in cur.execute(
-#             "select date from ephemerides where venus - moon > 250 and moon < 50 and date between '2027-01-30' and '2029-12-30'"):
-#         tmp.append(row[0])
-#     print(tmp)
-
 
 ###########################################
 

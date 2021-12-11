@@ -3,14 +3,15 @@ from defs.gradusPlanets import calc as gp
 from datetime import date, datetime, timedelta
 import sqlite3
 from const import *
+# создаем отдельный файл для выбранных координат луны
 
 real_data = f'{year_natal}-{month_natal}-{day_natal}'
 
-tm = '0_120'
+tm = 'moon_-0_120'
 start_time = perf_counter()
 
 try:
-    conn = sqlite3.connect(f'test_check_{tm}.db')
+    conn = sqlite3.connect(f'db/ephem_{tm}.db')
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
 
@@ -27,10 +28,10 @@ try:
 
     cur.execute(create_tab)
 
-# скопировать из главной базы
-    cur.execute("attach database 'test_check.db' as ads")
-    cur.execute(
-        f"insert into tab(data, moon) select data, moon_{tm} from ads.tab_0")
+# скопировать из базы всех лун
+    # cur.execute("attach database 'db/ephem_allmoons.db' as ads")
+    # cur.execute(
+    #     f"insert into tab(data, moon) select data, {tm} from ads.tab_0")
 
     conn.commit()
     cur.close()
