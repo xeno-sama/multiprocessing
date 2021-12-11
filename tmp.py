@@ -24,6 +24,8 @@ try:
     '''
 
     cur.execute(create_tab_2)
+    cur.execute('alter table tab_2 add column data2 text')
+
 
 # задаем период для исходной таблицы tab_0
     date_start = date(year=1930, month=1, day=1)
@@ -33,9 +35,9 @@ try:
         tmp = []
         tmp.append(round(gp(date_start.year, date_start.month, date_start.day,
                             hour, minutes, tmz, 70, 70)[1], 2))
-        dz = tuple([str(date_start)] + tmp)
+        dz = tuple([str(date_start)] + tmp + [str(22)])
 
-        cur.execute("insert into tab_2 values (?,?)", dz)
+        cur.execute("insert into tab_2 values (?,?,?)", dz)
 
         print(date_start)  # видеть лог
         date_start += timedelta(days=1)
