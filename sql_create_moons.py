@@ -1,47 +1,49 @@
-from time import perf_counter
 from defs.gradusPlanets import calc as gp
-from datetime import date, datetime, timedelta
 import sqlite3
-from const import *
 # создаем отдельный файл для выбранных координат луны
 
-real_data = f'{year_natal}-{month_natal}-{day_natal}'
+conn = sqlite3.connect('db/ephem_allmoons.db')
+cur = conn.cursor()
+print("База данных успешно подключена к SQLite")
 
-tm = 'moon_-0_120'
-start_time = perf_counter()
+cur.execute("select name from PRAGMA_TABLE_INFO('tab_0')")
+list_colnames = [i[0] for i in cur.fetchall()][:-1]
 
-try:
-    conn = sqlite3.connect(f'db/ephem_{tm}.db')
-    cur = conn.cursor()
-    print("База данных успешно подключена к SQLite")
+cur.close()
 
-# очистка таблиц
-    cur.execute(''' drop table if exists tab ''')
-# предварительная очистка клиентской таблицы
-    # cur.execute("delete from tab_2")
 
-    create_tab = ''' create table tab (
-        data text,
-        moon real
-    );
-    '''
+def create_moons(moon_coord):
+    try:
+        conn = sqlite3.connect(f'db/moons/{moon_coord}.db')
+        cur = conn.cursor()
+        print("База данных успешно создана/подключена к SQLite")
 
-    cur.execute(create_tab)
+    # очистка таблиц
+        cur.execute(''' drop table if exists tab_0 ''')
 
-# скопировать из базы всех лун
-    # cur.execute("attach database 'db/ephem_allmoons.db' as ads")
-    # cur.execute(
-    #     f"insert into tab(data, moon) select data, {tm} from ads.tab_0")
+        create_tab = ''' create table if not exists tab_0 (
+            data text,
+            moon real
+        );
+        '''
+        cur.execute(create_tab)
 
-    conn.commit()
-    cur.close()
+    # скопировать из базы всех лун
+        cur.execute("attach database 'db/ephem_allmoons.db' as ads")
+        cur.execute(
+            f"insert into tab_0(data, moon) select data, {moon_coord} from ads.tab_0")
 
-except sqlite3.Error as error:
-    print("Ошибка при подключении к sqlite", error)
+        conn.commit()
+        cur.close()
 
-finally:
-    if (conn):
-        conn.close()
-        print("Соединение с SQLite закрыто")
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
 
-print(f'{(perf_counter() - start_time)}')
+    finally:
+        if (conn):
+            conn.close()
+            print("Соединение с SQLite закрыто")
+
+
+for i in list_colnames:
+    create_moons(f'{i}')

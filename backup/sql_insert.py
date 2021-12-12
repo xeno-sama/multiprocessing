@@ -18,7 +18,7 @@ try:
 
 # задаем период для исходной таблицы tab_0
     date_start = date(year=1900, month=1, day=1)
-    date_end = date(year=1900, month=1, day=1)
+    date_end = date(year=1900, month=1, day=2)
 
     while date_start <= date_end:
         _natal = [round(i, 2) for i in gp(date_start.year, date_start.month, date_start.day,

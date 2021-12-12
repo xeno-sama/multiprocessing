@@ -8,9 +8,8 @@ from defs.gradusPlanets import calc as gp
 lat = [i for i in range(-90, 91, 10)]
 lon = [i for i in range(-180, 180, 10)]
 
-lat = [-90, -80, -70, -60, -50, -40, -30, -20, -
-       10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
-lon = [-180, -170, -160, -150, -140, -130, -120, -110, -100, -90, -80, -70, -60, -50, -40, -
-       30, -20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170]
-
-# print(lon)
+x = [('data',), ('sun',), ('moon',), ('mercury',), ('venus',), ('mars',),
+     ('jupiter',), ('saturn',), ('uranus',), ('neptune',), ('pluto',)]
+tmp = [i[0] for i in x][:-1]
+number = 6.56
+print(round(number / 10) * 10)

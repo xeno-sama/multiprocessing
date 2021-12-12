@@ -1,72 +1,73 @@
-# from defs.calc_moon import calc
-# from defs.gradusPlanets import calc as gp
-from datetime import date, datetime, timedelta
 import sqlite3
-from const import *
+from defs import calc_moon as func
+from datetime import date, timedelta
+
+# 1 - запуск sql-create = создаем все планеты по диапазону дат = ephem.db
+# 2 - sql_create_allmoons и sql_insert_allmoons = ephem_allmoons.db
+# 3 - sql_create_moons = создает в папке moons все файлы для гео-координат
+# 4 - TODO нужна функция запроса чтобы найти нужный лунный файл и запустить шаг-5
+# 5 - sql_clay - апдейтит клиентский ephem.db c нужной луной
+
+real_data = date(year_natal, month_natal, day_natal)
+real_data_next = real_data + timedelta(days=1)
+
+
+def recalc(hour_natal):  # поправка на реальное время для луны
+    cur.execute(
+        f"select moon from tab_0 where date = '{real_data}'")
+    moon_point_1 = cur.fetchone()[0]
+    cur.execute(
+        f"select moon from tab_0 where date = '{real_data_next}'")
+    moon_point_2 = cur.fetchone()[0]
+
+    if moon_point_2 < moon_point_1:
+        moon_point = (moon_point_2+360-moon_point_1)/24*hour_natal
+    else:
+        moon_point = (moon_point_2-moon_point_1)/24*hour_natal
+    return moon_point
+
+
+try:
+    conn = sqlite3.connect('db/ephem.db')
+    cur = conn.cursor()
+    print("База данных создана и успешно подключена к SQLite")
+
+    # находим самую близкую луну из готовых ячеек
+    moon_fix = func.calc(lat_natal, lon_natal)
+    moon_actual = f'moon_{moon_fix[0]}_{moon_fix[1]}'
+    # print(moon_fix, moon_fix[0], moon_fix[1], moon_actual)
+
+    cur.execute(
+        f"update tab_0 set moon = {moon_actual} + {recalc(hour_natal)}")
+    cur.execute(
+        f"update tab_0 set moon = moon - 360 where moon > 360")
+    cur.execute(
+        f"update tab_0 set moon = round(moon, 1)")
+
+    # предварительная очистка клиентской таблицы
+    cur.execute("delete from tab_1")
+    # заполняем клиентскую таблицу tab_1 от даты рождения
+    cur.execute(
+        f"insert into tab_1(date, sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto) select date, sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto from tab_0 where date >= '{real_data}' ")
+    print("Клиентская База данных создана")
+
+    conn.commit()
+    cur.execute("vacuum")
+    cur.close()
+
+except sqlite3.Error as error:
+    print("Ошибка при подключении к sqlite", error)
+
+finally:
+    if (conn):
+        conn.close()
+        print("Соединение с SQLite закрыто")
 
 
 ###########################################
 
-# переписать таблицу с уточнением по луне
-# cur.execute("update ephemerides set moon = moon + 10 where moon > 0 ")
-
-# скопировать в другую базу
-# cur.execute("attach database 'ephem03.db' as other")
-# cur.execute("insert into other.ephemerides select * from ephemerides")
-
-# урезать полную таблицу в краткую, начиная с даты рождения
-# cur.execute("delete from ephemerides where date > '2020-02-01' ")
 
 # сжатие базы
 # cur.execute("vacuum")
-
-# найти нужнул луну и скопировать ее в начальную moon_0_0 переделать в moon
-# lst = func.calc(42, -75)
-# df = f'moon_{lst[0]}_{lst[1]}'
-# cur.execute(f"update ephemerides set moon_0_0 = {df} ")
-
-###########################################
-
-# tmp = []
-# tmp1 = []
-# tmp2 = []
-# date_start = date(year=2018, month=1, day=1)
-# date_end = date(year=2019, month=1, day=1)
-
-# date_start2 = date(year=2018, month=1, day=1)
-# date_end2 = date(year=2019, month=1, day=1)
-
-# while date_start <= date_end:
-#     _natal = gp(date_start.year, date_start.month, date_start.day,
-#                 hour, minutes, tmz, lat, lon)
-#     moon = round(_natal[1], 1)
-#     tmp1.append(moon)
-#     date_start += timedelta(days=60)
-
-# while date_start2 <= date_end2:
-#     _natal = gp(date_start2.year, date_start2.month, date_start2.day,
-#                 hour, minutes, tmz, 0.0, 0.0)
-#     moon2 = round(_natal[1], 1)
-#     tmp2.append(moon2)
-#     date_start2 += timedelta(days=30)
-
-# for i in range(len(tmp2)-1):
-#     tmp.append(round(tmp1[i]-tmp2[i], 2))
-
-# print(tmp)
-
-# i = 0
-# date_start = date(year=2020, month=1, day=1)
-# date_end = date(year=2020, month=1, day=5)
-
-# cur.execute("attach database 'ephem_moon_copy.db' as other")
-
-# while date_start <= date_end:
-#     moon_0_120 = tmp[i]
-#     cur.execute("insert into other.ephemerides values (?)",
-#                 (moon_0_120))
-#     date_start += timedelta(days=1)
-#     i += 1
-
 
 # eval(f'{i}us')

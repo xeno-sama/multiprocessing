@@ -1,11 +1,20 @@
 import sqlite3
 
+
+def change(lat, lon):
+    if lat < 0:
+        lat = str(abs(lat)) + 'm'
+    if lon < 0:
+        lon = str(abs(lon)) + 'm'
+    return tmp.append(f'moon_{lat}_{lon}')
+
+
 lat = [i for i in range(-90, 91, 10)]
 lon = [i for i in range(-180, 181, 10)]
 tmp = []
 for i in lat:
     for j in lon:
-        tmp.append(f'moon_{i}_{j}')
+        change(i, j)
 
 dz = tuple(tmp)
 
