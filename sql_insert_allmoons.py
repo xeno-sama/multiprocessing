@@ -6,43 +6,51 @@ import sqlite3
 
 start_time = perf_counter()
 
-try:
-    conn = sqlite3.connect('db/ephem_allmoons.db')
-    cur = conn.cursor()
-    print("База данных успешно подключена к SQLite")
 
-# предварительная очистка клиентской таблицы
-    cur.execute("delete from tab_0")
+def main(start_year, start_month, start_day,
+         last_year, last_month, last_day):
 
-# задаем период для исходной таблицы tab_0
-    date_start = date(year=1900, month=1, day=1)
-    date_end = date(year=1900, month=1, day=2)
-    lat = [i for i in range(-90, 91, 10)]
-    lon = [i for i in range(-180, 181, 10)]
+    date_start = date(start_year, start_month, start_day)
+    date_end = date(last_year, last_month, last_day)
 
-    while date_start <= date_end:
-        tmp = []
-        for i in lat:
-            for j in lon:
-                tmp.append(round(gp(date_start.year, date_start.month, date_start.day,
-                                    12, 0, 0, i, j)[1], 2))
-        dz = tuple(tmp + [str(date_start)])
+    try:
+        conn = sqlite3.connect('db/ephem_allmoons.db')
+        cur = conn.cursor()
+        print("База данных успешно подключена к SQLite")
 
-        cur.execute(
-            f"insert into tab_0 values {dz}")
+    # предварительная очистка клиентской таблицы
+        cur.execute("delete from tab_0")
 
-        print(date_start)  # видеть лог
-        date_start += timedelta(days=1)
+    # задаем период для исходной таблицы tab_0
+        lat = [i for i in range(-90, 91, 10)]
+        lon = [i for i in range(-180, 181, 10)]
 
-    conn.commit()
-    cur.close()
+        while date_start <= date_end:
+            tmp = []
+            for i in lat:
+                for j in lon:
+                    tmp.append(round(gp(date_start.year, date_start.month, date_start.day,
+                                        0, 0, 0, i, j)[1], 2))
+            dz = tuple(tmp + [str(date_start)])
 
-except sqlite3.Error as error:
-    print("Ошибка при подключении к sqlite", error)
+            cur.execute(
+                f"insert into tab_0 values {dz}")
 
-finally:
-    if (conn):
-        conn.close()
-        print("Соединение с SQLite закрыто")
+            print(date_start)  # видеть лог
+            date_start += timedelta(days=1)
+
+        conn.commit()
+        cur.close()
+
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
+
+    finally:
+        if (conn):
+            conn.close()
+            print("Соединение с SQLite закрыто")
+
+
+main(1900, 1, 1, 1900, 2, 1)
 
 print(f'{(perf_counter() - start_time)}')

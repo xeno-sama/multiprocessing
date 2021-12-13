@@ -23,7 +23,7 @@ def find_moon(year, month, day, hour, minutes, _lat, _lon):
         lat = str(abs(lat)) + 'm'
     if lon < 0:
         lon = str(abs(lon)) + 'm'
-    # собрали нужное имя файла
+
     db_name = f'db/moons/moon_{lat}_{lon}.db'
 
     try:
@@ -34,18 +34,19 @@ def find_moon(year, month, day, hour, minutes, _lat, _lon):
     # предварительная очистка клиентской таблицы
         cur.execute("delete from tab_final")
 
-    # подключить нужный файл базы по луне
+    # скопировать из другой базы
         cur.execute(f"attach database '{db_name}' as ads")
 
     # скопировать из базовой таблицы tab_0 в клиентскую tab_final
         cur.execute(
             f"insert into tab_final select data,sun,moon,mercury,venus,mars,jupiter,saturn,uranus,neptune,pluto from tab_0")
 
-    # перенести нужное значение луны из таблицы ads.tab_0 в клиентскую таблицу tab_final
+    # перенести нужное значение луны из таблицы tab_1 в клиентскую таблицу tab_final
         cur.execute(
             "update tab_final set moon = tab_0.moon from ads.tab_0 where tab_final.data = ads.tab_0.data")
     ## ##
 # исправляем значения планет в соотв с реальным временем ☉ ☽ ☿ ♀ ♂ ♃
+
         cur.execute(
             f"update tab_final set sun = 1*{_time_coef} + sun")
         cur.execute(
@@ -89,5 +90,12 @@ def find_moon(year, month, day, hour, minutes, _lat, _lon):
             print("Соединение с SQLite закрыто")
 
 
-find_moon(year=1977, month=5, day=27, hour=16,
-          minutes=52, _lat=42.9, _lon=74.6)
+year = 1977
+month = 5
+day = 27
+hour = 16
+minutes = 52
+lat = 72.6
+lon = 14.9
+
+find_moon(year, month, day, hour, minutes, lat, lon)
