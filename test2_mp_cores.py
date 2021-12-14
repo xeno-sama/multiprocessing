@@ -19,7 +19,7 @@ def func(year, month, day, hour, minutes, tmz, ds):
     for i in lat:
         for j in lon:
             tmp.append(round(gp(year, month, day,
-                                0, 0, 0, i, j)[1], 2))
+                                hour, minutes, tmz, i, j)[1], 2))
     dz = tuple(tmp + [str(ds)])
 
     cur.execute(
@@ -60,28 +60,44 @@ if __name__ == '__main__':
     cur.close()
 
     date_start = date(year=1930, month=1, day=1)
-    date_end = date(year=1930, month=1, day=1)
+    date_end = date(year=1930, month=1, day=7)
 
     while date_start <= date_end:
+        p0 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
+                                        0, minutes, 0, str(date_start)))
         p1 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
-                                        hour, minutes, 0, str(date_start)))
+                                        6, minutes, 0, str(date_start + timedelta(days=1))))
         p2 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
-                                        hour, minutes, 0, str(date_start)))
+                                        12, minutes, 0, str(date_start + timedelta(days=2))))
         p3 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
-                                        hour, minutes, 0, str(date_start)))
+                                        18, minutes, 0, str(date_start + timedelta(days=3))))
         p4 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
-                                        hour, minutes, 0, str(date_start)))
+                                        0, minutes, 0, str(date_start + timedelta(days=4))))
+        p5 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
+                                        6, minutes, 0, str(date_start + timedelta(days=5))))
+        p6 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
+                                        12, minutes, 0, str(date_start + timedelta(days=6))))
+        p7 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
+                                        18, minutes, 0, str(date_start + timedelta(days=7))))
+        p0.start()
         p1.start()
         p2.start()
         p3.start()
         p4.start()
+        p5.start()
+        p6.start()
+        p7.start()
+        p0.join()
         p1.join()
         p2.join()
         p3.join()
         p4.join()
+        p5.join()
+        p6.join()
+        p7.join()
 
         print(date_start)  # видеть лог
-        date_start += timedelta(days=1)
+        date_start += timedelta(days=7)
 
     print(f'{(perf_counter() - start_time)}')
 
