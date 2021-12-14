@@ -88,4 +88,4 @@ def main(start_year, start_month, start_day,
 
 
 main(start_year=1900, start_month=1, start_day=1,
-     last_year=1900, last_month=2, last_day=1)
+     last_year=2050, last_month=1, last_day=1)

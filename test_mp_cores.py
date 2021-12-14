@@ -10,11 +10,11 @@ import multiprocessing as mp
 
 
 def func(year, month, day, hour, minutes, tmz, ds):
-    conn = sqlite3.connect('db/test_all_moons.db')
+    conn = sqlite3.connect('db/test_mp.db')
     cur = conn.cursor()
     print("База данных успешно подключена к SQLite")
-    lat = [i for i in range(-90, 91, 10)]
-    lon = [i for i in range(-180, 180, 10)]
+    lat = [i for i in range(-90, 91, 30)]
+    lon = [i for i in range(-180, 180, 30)]
     tmp = []
     for i in lat:
         for j in lon:
@@ -42,11 +42,21 @@ if __name__ == '__main__':
 
         while date_start <= date_end:
             p1 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
-                                            hour, minutes, tmz, str(date_start)))
-
+                                            hour, minutes, 0, str(date_start)))
+            # p2 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
+            #                                 hour, minutes, 0, str(date_start)))
+            # p3 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
+            #                                 hour, minutes, 0, str(date_start)))
+            # p4 = Process(target=func, args=(date_start.year, date_start.month, date_start.day,
+            #                                 hour, minutes, 0, str(date_start)))
             p1.start()
-
+            # p2.start()
+            # p3.start()
+            # p4.start()
             p1.join()
+            # p2.join()
+            # p3.join()
+            # p4.join()
 
             print(date_start)  # видеть лог
             date_start += timedelta(days=1)
@@ -62,57 +72,3 @@ if __name__ == '__main__':
     #         print("Соединение с SQLite закрыто")
 
     print(f'{(perf_counter() - start_time)}')
-#####################################################
-
-# def sum(s):
-#     sun = gp(1977, 5, s,
-#              12, 0, 0, 0.0, 0.0)[0]
-#     moon = gp(2021, 1, s,
-#               12, 0, 0, 0.0, 0.0)[1]
-#     mercury = gp(2021, 1, s,
-#                  12, 0, 0, 0.0, 0.0)[2]
-#     venus = gp(2021, 1, s,
-#                12, 0, 0, 0.0, 0.0)[3]
-#     mars = gp(2021, 1, s,
-#               12, 0, 0, 0.0, 0.0)[4]
-#     jupiter = gp(2021, 1, s,
-#                  12, 0, 0, 0.0, 0.0)[5]
-#     saturn = gp(2021, 1, s,
-#                 12, 0, 0, 0.0, 0.0)[6]
-#     uranus = gp(2021, 1, s,
-#                 12, 0, 0, 0.0, 0.0)[7]
-#     neptune = gp(2021, 1, s,
-#                  12, 0, 0, 0.0, 0.0)[8]
-#     pluto = gp(2021, 1, s,
-#                12, 0, 0, 0.0, 0.0)[9]
-#     print(sun)
-
-
-# def main():
-#     for i in range(1, 32, 1):
-#         p1 = Process(target=sum, args=(i, ))
-#         p1.start()
-#     p1.join()
-
-#     # p1 = Process(target=sum, args=(1, ))
-#     # p1.start()
-
-#     # p2 = Process(target=sum, args=(2, ))
-#     # p2.start()
-
-#     # p3 = Process(target=sum, args=(i+2, ))
-#     # p3.start()
-
-#     # p4 = Process(target=sum, args=(i+3, ))
-#     # p4.start()
-
-#     # p1.join()
-#     # p2.join()
-#     # p3.join()
-#     # p4.join()
-
-
-# if __name__ == '__main__':
-
-#     main()
-#     print(f'{(perf_counter() - start_time)}')

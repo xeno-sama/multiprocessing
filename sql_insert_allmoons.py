@@ -19,7 +19,7 @@ def main(start_year, start_month, start_day,
         print("База данных успешно подключена к SQLite")
 
     # предварительная очистка клиентской таблицы
-        cur.execute("delete from tab_0")
+        # cur.execute("delete from tab_0")
 
     # задаем период для исходной таблицы tab_0
         lat = [i for i in range(-90, 91, 10)]
@@ -40,6 +40,7 @@ def main(start_year, start_month, start_day,
             date_start += timedelta(days=1)
 
         conn.commit()
+        cur.execute("vacuum")
         cur.close()
 
     except sqlite3.Error as error:
@@ -51,6 +52,6 @@ def main(start_year, start_month, start_day,
             print("Соединение с SQLite закрыто")
 
 
-main(1900, 1, 1, 1900, 2, 1)
+main(1900, 1, 1, 1905, 1, 1)
 
 print(f'{(perf_counter() - start_time)}')
